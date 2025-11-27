@@ -29,7 +29,7 @@ public class DatabaseService: IDatabaseService {
 
 private extension DatabaseService {
     func seedMockData() {
-        let chat1 = ChatModel(id: UUID(), title: "English Tutor")
+        let chat1 = ChatModel(id: UUID(uuidString: "EFD08840-406D-446F-940D-064040D44400")!, title: "English Tutor")
         let chat2 = ChatModel(id: UUID(), title: "Travel Assistant")
         let chat3 = ChatModel(id: UUID(), title: "Casual Conversation")
         

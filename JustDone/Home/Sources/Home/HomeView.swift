@@ -21,7 +21,7 @@ public struct HomeView: View {
             .navigationTitle(Text("Home"))
             .task {
                 vm.setRouter(router)
-                await vm.onAppear()
+                await vm.fetchChats()
             }
     }
     

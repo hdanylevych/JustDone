@@ -6,11 +6,23 @@
 //
 
 import SwiftUI
+import FactoryKit
+import AppDI
 import Core
 
 @MainActor
 @Observable
 public class ChatVM {
+    @ObservationIgnored
+    @Injected(\.databaseService) private var databaseService
+    
+    var messages: [MessageModel] = []
+    var isAppearing = true
+    
+    var title: String {
+        model.title
+    }
+    
     private let model: ChatModel
     private var router: Router?
     
@@ -20,5 +32,13 @@ public class ChatVM {
     
     func setRouter(_ router: Router) {
         self.router = router
+    }
+    
+    func fetchMessages() async {
+        do {
+            messages = try await databaseService.fetchMessages(for: model.id)
+        } catch {
+            print("Error fetching messages: \(error)")
+        }
     }
 }

@@ -26,11 +26,11 @@ public class HomeVM {
         self.router = router
     }
     
-    func onAppear() async {
+    func fetchChats() async {
         do {
             chats = try await databaseService.fetchChats()
         } catch {
-            print(error.localizedDescription)
+            print("Error fetching chats: \(error)")
         }
     }
     

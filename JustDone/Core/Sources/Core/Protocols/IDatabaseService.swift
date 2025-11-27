@@ -10,5 +10,5 @@ import SwiftUI
 @MainActor
 public protocol IDatabaseService {
     func fetchChats() async throws -> [ChatModel]
-    func fetchMessages(for chatId: String) async throws -> [MessageModel]
+    func fetchMessages(for chatId: UUID) async throws -> [MessageModel]
 }

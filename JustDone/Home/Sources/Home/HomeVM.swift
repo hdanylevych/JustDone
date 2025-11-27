@@ -16,6 +16,8 @@ public class HomeVM {
     @ObservationIgnored
     @Injected(\.databaseService) private var databaseService
     
+    var chats: [ChatModel] = []
+    
     private var router: Router?
     
     public init() { }
@@ -25,7 +27,11 @@ public class HomeVM {
     }
     
     func onAppear() async {
-        try? await databaseService.fetchChats()
+        do {
+            chats = try await databaseService.fetchChats()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func goToChat(chat: ChatModel) {

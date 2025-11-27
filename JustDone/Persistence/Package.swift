@@ -13,15 +13,13 @@ let package = Package(
             targets: ["Persistence"]),
     ],
     dependencies: [
-        .package(path: "../Core"),
-        .package(url: "https://github.com/hmlongco/Factory", from: "2.5.3"),
+        .package(path: "../Core")
     ],
     targets: [
         .target(
             name: "Persistence",
             dependencies: [
-                "Core",
-                .product(name: "FactoryKit", package: "Factory")
+                "Core"
             ],
             resources: [
                 .process("Resources")

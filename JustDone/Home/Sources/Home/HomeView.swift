@@ -18,6 +18,7 @@ public struct HomeView: View {
     
     public var body: some View {
         content
+            .navigationTitle(Text("Home"))
             .task {
                 vm.setRouter(router)
                 await vm.onAppear()
@@ -25,20 +26,27 @@ public struct HomeView: View {
     }
     
     var content: some View {
-        VStack {
-            Text("Hello, Home!")
-            
-            Button {
-                vm.goToChat(chat: ChatModel(id: "1"))
-            } label: {
-                Text("Create new Chat")
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 60)
-                    .foregroundStyle(.white)
-                    .background(.blue)
-                    .cornerRadius(24)
-                    .padding(.horizontal, 16)
+        List {
+            ForEach(vm.chats) { chat in
+                Text(chat.title)
+                    .onTapGesture {
+                        self.vm.goToChat(chat: chat)
+                    }
             }
+        }
+    }
+    
+    var createChatBtn: some View {
+        Button {
+            vm.goToChat(chat: ChatModel(id: UUID(), title: "Testing Chat"))
+        } label: {
+            Text("Create new Chat")
+                .frame(maxWidth: .infinity)
+                .frame(height: 60)
+                .foregroundStyle(.white)
+                .background(.blue)
+                .cornerRadius(24)
+                .padding(.horizontal, 16)
         }
     }
 }

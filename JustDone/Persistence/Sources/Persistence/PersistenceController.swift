@@ -8,11 +8,12 @@
 import CoreData
 
 struct PersistenceController {
+    static let shared = PersistenceController()
     
     let container: NSPersistentContainer
     let mainContext: NSManagedObjectContext
     
-    init() {
+    private init() {
         let modelName = "JustDone"
         
         guard let modelURL = Bundle.module.url(forResource: modelName, withExtension: "momd"),

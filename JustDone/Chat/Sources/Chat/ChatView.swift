@@ -30,6 +30,6 @@ public struct ChatView: View {
 }
 
 #Preview {
-    ChatView(model: ChatModel(id: "1"))
+    ChatView(model: ChatModel(id: UUID(), title: "Testing Chat"))
         .environment(Router())
 }

@@ -17,6 +17,7 @@ public struct HomeView: View {
     public init() { }
     
     public var body: some View {
+        
         content
             .navigationTitle(Text("Home"))
             .task {

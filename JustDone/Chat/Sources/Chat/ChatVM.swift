@@ -25,6 +25,9 @@ public class ChatVM {
     var messages: [MessageModel] = []
     var isAppearing = true
     
+    var liveTranscription: String {
+        speechRecognizer.recognizedText
+    }
     var title: String {
         model.title
     }

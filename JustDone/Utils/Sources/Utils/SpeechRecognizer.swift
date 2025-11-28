@@ -57,7 +57,7 @@ public final class SpeechRecognizer: ISpeechRecognizer, @unchecked Sendable {
         
         // Create recognition request
         let recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
-        recognitionRequest.shouldReportPartialResults = false
+        recognitionRequest.shouldReportPartialResults = true
         recognitionRequest.addsPunctuation = true
         self.recognitionRequest = recognitionRequest
         

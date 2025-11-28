@@ -35,6 +35,21 @@ public struct ChatView: View {
                 VStack(spacing: 0) {
                     Spacer()
                     
+                    if vm.isRecording {
+                        VStack(alignment: .leading) {
+                            Text(vm.liveTranscription)
+                                .foregroundStyle(.white)
+                                .multilineTextAlignment(.leading)
+                                .padding()
+                        }
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray)
+                        .cornerRadius(24)
+                        .padding(.horizontal, 16)
+                    }
+                    
+                    Spacer()
+                    
                     Button {
                         if vm.isRecording {
                             vm.stopTapped()

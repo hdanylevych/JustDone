@@ -32,41 +32,7 @@ public struct ChatView: View {
     var content: some View {
         messageCollection
             .overlay {
-                VStack(spacing: 0) {
-                    Spacer()
-                    
-                    if vm.isRecording {
-                        VStack(alignment: .leading) {
-                            Text(vm.liveTranscription)
-                                .foregroundStyle(.white)
-                                .multilineTextAlignment(.leading)
-                                .padding()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray)
-                        .cornerRadius(24)
-                        .padding(.horizontal, 16)
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        if vm.isRecording {
-                            vm.stopTapped()
-                        } else {
-                            vm.startTapped()
-                        }
-                    } label: {
-                        VStack {
-                            Image(systemName: vm.isRecording ? "stop.fill" : "mic.fill")
-                                .frame(width: 64, height: 64)
-                                .foregroundColor(.white)
-                        }
-                        .frame(width: 64, height: 64)
-                        .background(vm.isRecording ? .red : .blue)
-                        .clipShape(Circle())
-                    }
-                }
+                recordButtonOverlay
             }
     }
     
@@ -80,7 +46,7 @@ public struct ChatView: View {
                             
                             if vm.messages.last == message {
                                 Spacer()
-                                    .frame(height: 70)
+                                    .frame(height: 88)
                             }
                         }
                         .id(message.id)
@@ -88,9 +54,7 @@ public struct ChatView: View {
                 }
             }
             .onChange(of: vm.messages.count) { _, _ in
-                guard let last = vm.messages.last else {
-                    print("GUARD FAILED")
-                    return }
+                guard let last = vm.messages.last else { return }
                 
                 if vm.isAppearing {
                     vm.isAppearing = false
@@ -103,6 +67,45 @@ public struct ChatView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+    
+    var recordButtonOverlay: some View {
+        VStack(spacing: 0) {
+            Spacer()
+            
+            if vm.isRecording && !vm.liveTranscription.isEmpty {
+                VStack(alignment: .leading) {
+                    Text(vm.liveTranscription)
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.leading)
+                        .padding()
+                }
+                .frame(maxWidth: .infinity)
+                .background(Color.gray)
+                .cornerRadius(24)
+                .padding(.horizontal, 16)
+            }
+            
+            Spacer()
+            
+            Button {
+                if vm.isRecording {
+                    vm.stopTapped()
+                } else {
+                    vm.startTapped()
+                }
+            } label: {
+                VStack {
+                    Image(systemName: vm.isRecording ? "stop.fill" : "mic.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.white)
+                }
+                .frame(width: 80, height: 80)
+                .background(vm.isRecording ? .red : .blue)
+                .clipShape(Circle())
+                .shadow(color: vm.isRecording ? .red : .blue, radius: 6)
+            }
         }
     }
 }

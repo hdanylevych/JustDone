@@ -37,4 +37,9 @@ public class HomeVM {
     func goToChat(chat: ChatModel) {
         router?.navigateTo(.chat(chat))
     }
+    
+    func newChatTapped() {
+        let model = ChatModel(id: UUID(), title: "New Chat")
+        router?.navigateTo(.chat(model))
+    }
 }

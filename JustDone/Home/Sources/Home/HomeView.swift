@@ -35,19 +35,28 @@ public struct HomeView: View {
                     }
             }
         }
+        .overlay {
+            newChatOverlay
+        }
     }
     
-    var createChatBtn: some View {
-        Button {
-            vm.goToChat(chat: ChatModel(id: UUID(), title: "Testing Chat"))
-        } label: {
-            Text("Create new Chat")
-                .frame(maxWidth: .infinity)
-                .frame(height: 60)
-                .foregroundStyle(.white)
-                .background(.blue)
-                .cornerRadius(24)
-                .padding(.horizontal, 16)
+    var newChatOverlay: some View {
+        VStack {
+            Spacer()
+            
+            Button {
+                vm.newChatTapped()
+            } label: {
+                Text("New Chat")
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 60)
+                    .font(.system(size: 18, weight: .bold))
+                    .foregroundStyle(.white)
+                    .background(.blue)
+                    .cornerRadius(24)
+                    .padding(.horizontal, 16)
+            }
+            .padding(.bottom, 24)
         }
     }
 }

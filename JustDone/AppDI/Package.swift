@@ -15,13 +15,14 @@ let package = Package(
     dependencies: [
         .package(path: "../Core"),
         .package(path: "../Persistence"),
+        .package(path: "../Utils"),
         .package(url: "https://github.com/hmlongco/Factory", from: "2.5.3")
     ],
     targets: [
         .target(
             name: "AppDI",
             dependencies: [
-                "Core", "Persistence",
+                "Core", "Persistence", "Utils",
                 .product(name: "FactoryKit", package: "Factory")
             ]
         ),

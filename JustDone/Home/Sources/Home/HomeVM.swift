@@ -16,6 +16,9 @@ public class HomeVM {
     @ObservationIgnored
     @Injected(\.databaseService) private var databaseService
     
+    @ObservationIgnored
+    @Injected(\.permissionsService) var permissionsService
+    
     var chats: [ChatModel] = []
     
     private var router: Router?
@@ -31,6 +34,17 @@ public class HomeVM {
             chats = try await databaseService.fetchChats()
         } catch {
             print("Error fetching chats: \(error)")
+        }
+        
+        let speechPermission = await permissionsService.requestSpeechPermission()
+        let microphonePermission = await permissionsService.requestMicrophonePermission()
+        
+        let permissionGranted = speechPermission && microphonePermission
+        if !permissionGranted {
+            router?.presentAlert(.noSpeechPermission(action: {
+                guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                UIApplication.shared.open(url)
+            }))
         }
     }
     

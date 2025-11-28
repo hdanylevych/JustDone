@@ -14,6 +14,7 @@
 		6770FF242ED64BEA00DAC551 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 6770FF232ED64BEA00DAC551 /* Core */; };
 		677BA0042ED70940000C44ED /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 677BA0032ED70940000C44ED /* Persistence */; };
 		6797C7E62ED8CD6400121193 /* AppDI in Frameworks */ = {isa = PBXBuildFile; productRef = 6797C7E52ED8CD6400121193 /* AppDI */; };
+		6797C81A2ED8FF1E00121193 /* Utils in Frameworks */ = {isa = PBXBuildFile; productRef = 6797C8192ED8FF1E00121193 /* Utils */; };
 		67BDA6F42ED708420085C8DB /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 67BDA6F32ED708420085C8DB /* Home */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 				6762A7232ED77792006E5BB9 /* FactoryKit in Frameworks */,
 				6770FF242ED64BEA00DAC551 /* Core in Frameworks */,
 				6762A6992ED71DEA006E5BB9 /* Chat in Frameworks */,
+				6797C81A2ED8FF1E00121193 /* Utils in Frameworks */,
 				67BDA6F42ED708420085C8DB /* Home in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,6 +126,7 @@
 				6762A6982ED71DEA006E5BB9 /* Chat */,
 				6762A7222ED77792006E5BB9 /* FactoryKit */,
 				6797C7E52ED8CD6400121193 /* AppDI */,
+				6797C8192ED8FF1E00121193 /* Utils */,
 			);
 			productName = JustDone;
 			productReference = 67F95E012ED6354A006BBC91 /* JustDone.app */;
@@ -382,6 +385,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JustDone;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The app needs access to microphone to record your voice messages.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "The app needs access to speech recognition to transcribe your voice messages.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -425,6 +430,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = JustDone;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "The app needs access to microphone to record your voice messages.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "The app needs access to speech recognition to transcribe your voice messages.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -570,6 +577,10 @@
 		6797C7E52ED8CD6400121193 /* AppDI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppDI;
+		};
+		6797C8192ED8FF1E00121193 /* Utils */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Utils;
 		};
 		67BDA6F32ED708420085C8DB /* Home */ = {
 			isa = XCSwiftPackageProductDependency;

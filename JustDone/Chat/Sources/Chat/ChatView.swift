@@ -21,13 +21,41 @@ public struct ChatView: View {
         content
             .navigationTitle(vm.title)
             .navigationBarTitleDisplayMode(.inline)
-            .task {
+            .onAppear {
                 vm.setRouter(router)
-                await vm.fetchMessages()
+            }
+            .task {
+                await vm.onAppear()
             }
     }
     
     var content: some View {
+        messageCollection
+            .overlay {
+                VStack(spacing: 0) {
+                    Spacer()
+                    
+                    Button {
+                        if vm.isRecording {
+                            vm.stopTapped()
+                        } else {
+                            vm.startTapped()
+                        }
+                    } label: {
+                        VStack {
+                            Image(systemName: vm.isRecording ? "stop.fill" : "mic.fill")
+                                .frame(width: 64, height: 64)
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 64, height: 64)
+                        .background(vm.isRecording ? .red : .blue)
+                        .clipShape(Circle())
+                    }
+                }
+            }
+    }
+    
+    var messageCollection: some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(spacing: 8) {
@@ -61,36 +89,6 @@ public struct ChatView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-    }
-}
-
-struct MessageView: View {
-    let model: MessageModel
-    
-    var body: some View {
-        HStack {
-            if model.isIncoming {
-                bubble
-                Spacer(minLength: 40)
-            } else {
-                Spacer(minLength: 40)
-                bubble
-            }
-        }
-        .padding(.horizontal)
-        .padding(.vertical, 4)
-    }
-    
-    private var bubble: some View {
-        Text(model.text)
-            .padding(.vertical, 10)
-            .padding(.horizontal, 14)
-            .background(model.isIncoming ? Color.purple : Color.blue)
-            .foregroundColor(.white)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 16, style: .continuous)
-            )
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: model.isIncoming ? .leading : .trailing)
     }
 }
 

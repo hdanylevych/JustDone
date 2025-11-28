@@ -25,6 +25,7 @@ struct RootView: View {
                             ChatView(model: model)
                         }
                     }
+                    .showAlert(viewModel: router.alert, isPresented: $router.showAlert)
             }
         }
     }

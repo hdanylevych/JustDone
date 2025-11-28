@@ -12,6 +12,9 @@ import SwiftUI
 public final class Router {
     public var path: [RouterDestination] = []
     
+    public var showAlert = false
+    public var alert: AlertViewModel = AlertType.noWordsRecognized.vm
+    
     public init() { }
     
     public func popToRoot() {
@@ -28,5 +31,10 @@ public final class Router {
         } else {
             path.append(destination)
         }
+    }
+    
+    public func presentAlert(_ type: AlertType) {
+        alert = type.vm
+        showAlert = true
     }
 }

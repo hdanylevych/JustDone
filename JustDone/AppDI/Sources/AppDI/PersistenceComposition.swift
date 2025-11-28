@@ -1,6 +1,6 @@
 //
 //  Container.swift
-//  Persistence
+//  AppDI
 //
 //  Created by Hnat Danylevych on 27.11.2025.
 //

@@ -14,7 +14,6 @@ public final class PermissionsService: IPermissionsService {
     
     public init() {}
     
-    
     public func requestSpeechPermission() async -> Bool {
         await withCheckedContinuation { continuation in
             SFSpeechRecognizer.requestAuthorization { @Sendable status in

@@ -3,26 +3,26 @@
 import PackageDescription
 
 let package = Package(
-    name: "AppDI",
+    name: "Chat",
     platforms: [
         .iOS(.v17)
     ],
     products: [
         .library(
-            name: "AppDI",
-            targets: ["AppDI"]),
+            name: "Chat",
+            targets: ["Chat"]),
     ],
     dependencies: [
-        .package(path: "../Core"),
-        .package(path: "../Persistence"),
-        .package(path: "../Utils"),
+        .package(path: "../1-Domain/Core"),
+        .package(path: "../1-Domain/DesignSystem"),
+        .package(path: "../3-Composition/InfrastructureDI"),
         .package(url: "https://github.com/hmlongco/Factory", from: "2.5.3")
     ],
     targets: [
         .target(
-            name: "AppDI",
+            name: "Chat",
             dependencies: [
-                "Core", "Persistence", "Utils",
+                "Core", "DesignSystem", "InfrastructureDI",
                 .product(name: "FactoryKit", package: "Factory")
             ]
         ),

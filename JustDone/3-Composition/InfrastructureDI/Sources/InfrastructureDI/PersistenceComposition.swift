@@ -1,6 +1,6 @@
 //
 //  Container.swift
-//  AppDI
+//  InfrastructureDI
 //
 //  Created by Hnat Danylevych on 27.11.2025.
 //

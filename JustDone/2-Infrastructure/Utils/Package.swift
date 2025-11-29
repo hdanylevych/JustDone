@@ -13,7 +13,7 @@ let package = Package(
             targets: ["Utils"]),
     ],
     dependencies: [
-        .package(path: "../Core")
+        .package(path: "../1-Domain/Core")
     ],
     targets: [
         .target(

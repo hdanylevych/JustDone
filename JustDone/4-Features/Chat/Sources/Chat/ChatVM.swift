@@ -7,7 +7,7 @@
 
 import SwiftUI
 import FactoryKit
-import AppDI
+import InfrastructureDI
 import Core
 
 @MainActor

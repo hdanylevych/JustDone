@@ -1,170 +1,123 @@
 # JustDone – Modular SwiftUI App
 
-JustDone is an iOS application built using a **full modular architecture** based on Swift Packages.  
-Each module has a clear responsibility and communicates with others through well-defined boundaries.  
-The goal is maintainability, testability, and feature isolation.
+JustDone is an iOS application structured using a **modular architecture** built with Swift Packages.  
+The codebase is divided into four clear architectural layers:
+
+- **Domain** – core models and interfaces  
+- **Infrastructure** – concrete service implementations  
+- **Composition** – dependency wiring (DI)  
+- **Features** – UI screens and business logic  
+
+This separation improves testability, scalability, and code clarity.
 
 ---
 
-## 📦 Project Modules
+## 📚 Domain
 
-Below is a breakdown of every module in the project and its purpose.
+The **Domain** layer contains the foundational logic that everything else depends on.
 
----
-
-## **1. JustDone (App Target)**
-
-This is the main application bundle.
-
-Contains:
-- `JustDoneApp` — the entry point of the app
-- `RootView` — top-level container view with `NavigationStack`
-- `Router` — global navigation manager (`@Observable`) injected into the environment
-
-Responsibilities:
-- Launching the app
-- Creating and injecting the `Router`
-- Setting up global environment values
-- Hosting the entire navigation tree
-
----
-
-## **2. AppDI (Swift Package)**
-
-This module is the **composition root** of the app.
-
-Contains:
-- All **Factory** dependency registrations
-- Composition helpers (`PersistenceComposition`, `UtilsComposition`)
-- Global environment entries (`@Entry`) when needed
-
-Responsibilities:
-- Wiring all dependencies together
-- Registering concrete implementations for services
-- Providing DI access to other modules through Factory
-
-This module knows about:
-- Core protocols
-- Concrete implementations (Persistence, Utils)
-
-Other modules depend on AppDI to get their dependencies injected.
-
----
-
-## **3. Core (Swift Package)**
-
-This is the **domain layer** and the shared foundation.
-
-Contains:
-- Domain models (e.g., Chat, Message)
+### **Core**
+- Domain models
 - Protocols and abstractions
-- Shared utilities
-- Navigation types (e.g., `RouterDestination`)
-- Common extensions and modifiers
+- Navigation types
+- Shared extensions and view modifiers
 
-Responsibilities:
-- Define the stable API that other modules depend on
-- Provide all shared, non-UI logic
-- Contain no concrete implementations
-
-Core has **no dependencies** — everything depends on Core.
-
----
-
-## **4. Home (Swift Package)**
-
-Feature module for the Home screen.
-
-Contains:
-- `HomeView`
-- `HomeVM` (`@Observable`)
-- Local feature UI and logic
-
-Responsibilities:
-- Render the Home screen
-- Fetch data via injected services (via Factory)
-- Use the router (injected from App target via environment)
-
-Home depends only on:
-- Core
-- AppDI
-- DesignSystem
-
----
-
-## **5. Chat (Swift Package)**
-
-Feature module for the Chat screen.
-
-Contains:
-- `ChatView`
-- `ChatVM`
-- `MessageView`
-
-Responsibilities:
-- Render conversations
-- Fetch/save messages using injected services
-- Navigate via global Router
-
----
-
-## **6. Persistence (Swift Package)**
-
-This is the **data layer**.
-
-Contains:
-- `DatabaseService` — Core Data service implementation
-- `PersistenceController` — Core Data stack setup
-- Data entities and resources
-
-Responsibilities:
-- Provide real data storage
-- Manage Core Data context and model loading
-- Expose data access via abstractions defined in Core
-
-Only AppDI wires Persistence into DI.
-
----
-
-## **7. DesignSystem (Swift Package)**
-
-A shared UI component & asset library.
-
-Contains:
-- Icons (`DSIcon`)
+### **DesignSystem**
+- Icon library (`DSIcon`)
 - Asset catalogs
-- Color palettes, fonts, styles
+- Fonts, colors, and reusable UI primitives
 
-Responsibilities:
-- Provide consistent, reusable UI components
-- Centralize app styling
-- Provide resource bundles
+**Responsibilities:**  
+Provide interfaces, shared types, and global UI resources.  
+Domain never depends on Infrastructure or Features.
 
 ---
 
-## **8. Utils (Swift Package)**
+## 🛠 Infrastructure
 
-Collection of small reusable utilities.
+The **Infrastructure** layer contains real service implementations.  
+It may depend only on **Domain**, since Domain contains all interfaces.
+
+### **Persistence**
+- Core Data stack (`PersistenceController`)
+- `DatabaseService` implementation
+- Data model and persistent storage
+
+### **Utils**
+- Permissions service
+- Speech recognition service
+- Miscellaneous reusable helpers
+
+**Responsibilities:**  
+Provide concrete system-level functionality without referencing Features.
+
+---
+
+## 🔗 Composition
+
+### **InfrastructureDI**
+
+This module wires the **Infrastructure implementations** to **Domain interfaces** using `Factory`.
 
 Contains:
-- Permission handler
-- Speech recognizer wrapper
-- Miscellaneous helpers
+- `PersistenceComposition`  
+- `UtilsComposition`  
 
-Responsibilities:
-- Provide non-feature-specific utility logic
-- Remain modular and lightweight
-- Offer services that can be reused across features
+**Responsibilities:**  
+- Register concrete services for Dependency Injection  
+- Provide DI access to Features without exposing Infrastructure directly  
+- Isolate dependency wiring from the app and feature modules  
+
+Features import **InfrastructureDI**, not Persistence/Utils directly.
 
 ---
 
-## 🧩 Architecture Summary
+## 🧩 Features
 
-- App uses **SwiftUI** + **Observation (`@Observable`)** for state.
-- All modules are isolated using **Swift Package Manager**.
-- `AppDI` acts as the **central dependency injection root** using **Factory**.
-- `Router` is a concrete `@Observable` class located in the App target and injected via environment.
-- Feature modules (Home, Chat) are lightweight and depend only on:
-  - Core  
-  - AppDI  
-  - DesignSystem
+Feature modules represent application screens and business logic.  
+They depend only on **Domain** and **Composition (InfrastructureDI)**.
+
+### **Home**
+- `HomeView`, `HomeVM`
+- Uses injected services (e.g., fetching data)
+- Navigates using the Router provided by the App
+
+### **Chat**
+- `ChatView`, `ChatVM`, `MessageView`
+- Handles displaying and interacting with messages
+- Uses domain interfaces via DI
+
+**Responsibilities:**  
+Provide UI and user-driven logic without knowing about concrete Infrastructure.
+
+---
+
+## 📱 App Target
+
+The **JustDone** app target contains:
+
+- `JustDoneApp` — app entry point
+- `RootView` — main container view
+- `Router` — global navigation manager (`@Observable`)
+- Application-wide environment injection
+
+**Responsibilities:**  
+- Initialize navigation  
+- Provide the Router to the view hierarchy  
+- Start the app and bootstrap dependency composition  
+
+---
+
+## 🧭 Summary
+
+This architecture ensures:
+
+- **Domain** defines stable interfaces  
+- **Infrastructure** provides real implementations but stays hidden  
+- **InfrastructureDI** cleanly wires concrete services to abstract protocols  
+- **Features** remain lightweight, testable, and independent of Infrastructure  
+- **App** handles startup, navigation, and root environment setup  
+
+The result is a clean, scalable, and maintainable modular SwiftUI application.
+
+---
